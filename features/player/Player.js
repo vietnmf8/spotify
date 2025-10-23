@@ -92,6 +92,21 @@ class Player {
             }
         });
 
+        // Thêm sự kiện bàn phím cho tiến/lùi bài
+        document.addEventListener("keydown", (e) => {
+            switch (e.code) {
+                case "ArrowRight": // → : chuyển bài kế tiếp
+                    e.preventDefault();
+                    this._handleNext();
+                    break;
+
+                case "ArrowLeft": // ← : quay lại bài trước
+                    e.preventDefault();
+                    this._handlePrevious();
+                    break;
+            }
+        });
+
         // Gán sự kiện cho các nút chức năng
         this.nextBtn.addEventListener("click", () => this._handleNext());
         this.prevBtn.addEventListener("click", () => this._handlePrevious());
