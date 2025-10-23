@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Spotify</title>
+        <!-- Font Awesome CDN -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+
+        <!-- Toastify CDN !-->
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+        />
+
+        <link rel="stylesheet" href="css/reset.css" />
+        <link rel="stylesheet" href="css/variables.css" />
+        <link rel="stylesheet" href="css/components.css" />
+        <link rel="stylesheet" href="css/layout.css" />
+        <link rel="stylesheet" href="css/responsive.css" />
+    </head>
+    <body>
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <div class="app-container">
+            <!-- Left Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo">
+                        <i class="fab fa-spotify"></i>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <!-- Logged -->
+                    <div class="library-logged-in-content">
+                        <div class="nav-section">
+                            <h2 class="section-title">Your Library</h2>
+                            <button
+                                class="create-btn"
+                                data-tooltip="Create playlist or folder"
+                            >
+                                <i class="fas fa-plus"></i>
+                                Create
+                            </button>
+                        </div>
+
+                        <!-- Filter Playlists/Artists -->
+                        <div class="library-filters">
+                            <button
+                                class="library-clear-filter-btn"
+                                data-tooltip="Clear filter"
+                            >
+                                <i class="fas fa-times"></i>
+                            </button>
+
+                            <div class="nav-tabs">
+                                <button class="nav-tab" data-filter="playlists">
+                                    Playlists
+                                </button>
+                                <button class="nav-tab" data-filter="artists">
+                                    Artists
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Search Library -->
+                        <div class="search-library" id="searchLibrary">
+                            <div class="search-library-input-wrapper">
+                                <!-- Button Search -->
+                                <button
+                                    class="search-library-btn"
+                                    id="searchLibraryBtn"
+                                    data-tooltip="Search in Your Library"
+                                >
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                <!-- Input -->
+                                <input
+                                    type="text"
+                                    class="search-library-input"
+                                    id="searchLibraryInput"
+                                    placeholder="Search in Your Library"
+                                    autocomplete="off"
+                                />
+                                <!-- Clear (X) -->
+                                <button
+                                    class="search-library-clear-btn"
+                                    id="searchLibraryClearBtn"
+                                >
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+
+                            <!-- Sort -->
+                            <div class="sort-container">
+                                <button class="sort-btn" id="sortBtn">
+                                    <span class="sort-btn-text">Recents</span>
+                                    <i class="fas fa-list"></i>
+                                </button>
+
+                                <!-- Library Sort Menu -->
+                                <div
+                                    class="library-sort-menu"
+                                    id="librarySortMenu"
+                                >
+                                    <!-- Sort By  -->
+                                    <div class="sort-section">
+                                        <span class="menu-title">Sort by</span>
+                                        <ul
+                                            class="sort-options"
+                                            id="sortOptions"
+                                        >
+                                            <li
+                                                class="sort-option"
+                                                data-sort="recents"
+                                            >
+                                                Recents
+                                            </li>
+                                            <li
+                                                class="sort-option"
+                                                data-sort="recently-added"
+                                            >
+                                                Recently added
+                                            </li>
+                                            <li
+                                                class="sort-option"
+                                                data-sort="alphabetical"
+                                            >
+                                                Alphabetical
+                                            </li>
+                                            <li
+                                                class="sort-option"
+                                                data-sort="creator"
+                                            >
+                                                Creator
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- View as -->
+                                    <div class="view-section">
+                                        <span class="menu-title">View as</span>
+                                        <div
+                                            class="view-options"
+                                            id="viewOptions"
+                                        >
+                                            <div
+                                                class="view-slider"
+                                                id="viewSlider"
+                                            ></div>
+                                            <button
+                                                class="view-btn"
+                                                data-view="compact-list"
+                                                data-tooltip="Compact list"
+                                            >
+                                                <i class="fas fa-bars"></i>
+                                            </button>
+                                            <button
+                                                class="view-btn"
+                                                data-view="default-list"
+                                                data-tooltip="Default list"
+                                            >
+                                                <i class="fas fa-list"></i>
+                                            </button>
+                                            <button
+                                                class="view-btn"
+                                                data-view="compact-grid"
+                                                data-tooltip="Compact Grid"
+                                            >
+                                                <i class="fas fa-th-large"></i>
+                                            </button>
+                                            <button
+                                                class="view-btn"
+                                                data-view="default-grid"
+                                                data-tooltip="Default grid"
+                                            >
+                                                <i
+                                                    class="fas fa-grip-horizontal"
+                                                ></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="library-content" id="libraryContent">
+                            <div
+                                class="library-item liked-songs-item"
+                                data-type="playlist"
+                                data-id="liked"
+                                data-pinned="true"
+                            >
+                                <div class="item-image-wrapper">
+                                    <div class="item-icon liked-songs">
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                    <button
+                                        class="library-play-btn"
+                                        data-tooltip="Play Liked Songs"
+                                        data-context-name="Liked Songs"
+                                    >
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                </div>
+                                <div class="item-info">
+                                    <div class="item-title">Liked Songs</div>
+                                    <div class="item-subtitle">
+                                        <i class="fas fa-thumbtack"></i>
+                                        <!-- Playlist • 3 songs -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guest -->
+                    <div class="library-empty-state">
+                        <h2 class="section-title">Enjoy Your Library!</h2>
+                        <p class="empty-state-description">
+                            Log in to see saved songs, podcasts, artists, and
+                            playlists in Your Library.
+                        </p>
+                        <div class="empty-state-actions">
+                            <button class="auth-btn login-btn">Log in</button>
+                        </div>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <header class="main-header">
+                    <div class="search-container">
+                        <div class="search-box">
+                            <button class="home-btn" data-tooltip="Home">
+                                <i class="fas fa-home"></i>
+                            </button>
+
+                            <div class="search-input-wrapper">
+                                <i class="fas fa-search search-icon"></i>
+                                <input
+                                    type="text"
+                                    placeholder="What do you want to play?"
+                                    class="search-input"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <div class="auth-buttons">
+                            <button class="auth-btn signup-btn">Sign up</button>
+                            <button class="auth-btn login-btn">Log in</button>
+                        </div>
+                        <div class="user-menu">
+                            <div class="user-info">
+                                <span id="user-name" class="user-name"></span>
+                                <button
+                                    class="user-avatar-btn"
+                                    id="userAvatar"
+                                    data-tooltip="Your Profile"
+                                >
+                                    <img
+                                        id="user-avatar"
+                                        src="placeholder.svg?height=32&width=32"
+                                        alt="User Avatar"
+                                    />
+                                </button>
+                            </div>
+                            <div class="user-dropdown" id="userDropdown">
+                                <div class="dropdown-item" id="logoutBtn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="content-wrapper">
+                    <!-- Home content -->
+                    <div id="home-content">
+                        <!-- Today's Biggest Hits Section -->
+                        <section class="hits-section">
+                            <div class="section-header">
+                                <h2 class="section-heading">
+                                    Today's biggest hits
+                                </h2>
+                            </div>
+                            <div class="hits-grid"></div>
+                        </section>
+
+                        <!-- Popular Artists Section -->
+                        <section class="artists-section">
+                            <div class="section-header">
+                                <h2 class="section-heading">Popular artists</h2>
+                            </div>
+                            <div class="artists-grid"></div>
+                        </section>
+                    </div>
+
+                    <!-- Detail content -->
+                    <div id="detail-content" class="hidden">
+                        <!-- Nội dung header động -->
+                        <div class="header-dynamic-content">
+                            <button class="header-dynamic-play-btn">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <span class="header-dynamic-title"></span>
+                        </div>
+
+                        <!-- Banner Hero -->
+                        <section class="detail-hero-section"></section>
+
+                        <!-- Phần nội dung chính (Nút controls, danh sách tracks) -->
+                        <div class="detail-main-section">
+                            <!-- Các nút điều khiển (Play, Follow, More) sẽ được JS render vào đây -->
+                            <section class="detail-controls"></section>
+
+                            <!-- Danh sách bài hát -->
+                            <section class="track-list-container">
+                                <div class="track-list-header"></div>
+                                <div class="track-list-body"></div>
+                                <div class="track-list-footer"></div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Queue -->
+            <aside id="queue-panel" class="queue-panel"></aside>
+
+            <!-- Bottom Player -->
+            <footer class="player">
+                <div class="player-left">
+                    <img
+                        src="placeholder.svg?height=56&width=56"
+                        alt="Current track"
+                        class="player-image"
+                    />
+                    <div class="player-info">
+                        <div class="player-title"></div>
+                        <div class="player-artist"></div>
+                    </div>
+                    <button class="add-btn">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+
+                <div class="player-center">
+                    <div class="player-controls">
+                        <!-- Nút Shuffle -->
+                        <button
+                            class="control-btn"
+                            data-tooltip="Enable shuffle"
+                        >
+                            <i class="fas fa-random"></i>
+                        </button>
+                        <!-- Nút lùi -->
+                        <button class="control-btn" data-tooltip="Previous">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <!-- Nút Play/Pause -->
+                        <button
+                            class="control-btn play-btn"
+                            data-tooltip="Play"
+                        >
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <!-- Nút tiến -->
+                        <button class="control-btn" data-tooltip="Next">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                        <!-- Nút Repeat -->
+                        <button
+                            class="control-btn"
+                            data-tooltip="Enable repeat"
+                        >
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+
+                    <!-- Thanh tiến trình -->
+                    <div class="progress-container">
+                        <span class="time">0:00</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%">
+                                <div class="progress-handle"></div>
+                            </div>
+                        </div>
+                        <span class="time">0:00</span>
+                    </div>
+                </div>
+
+                <div class="player-right">
+                    <button class="control-btn" data-tooltip="Lyrics">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+
+                    <!-- Icon queue -->
+                    <button
+                        id="queue-btn"
+                        class="control-btn"
+                        data-tooltip="Queue"
+                    >
+                        <i class="fas fa-list-ol"></i>
+                    </button>
+
+                    <div class="volume-container">
+                        <button class="control-btn" data-tooltip="Mute">
+                            <i class="fas fa-volume-down"></i>
+                        </button>
+                        <div class="volume-bar">
+                            <div class="volume-fill" style="width: 0%">
+                                <div class="volume-handle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="control-btn" data-tooltip="Full screen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Auth Modal -->
+        <div class="modal-overlay" id="authModal">
+            <div class="modal-container">
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <div class="modal-content">
+                    <div class="modal-logo">
+                        <i class="fab fa-spotify"></i>
+                    </div>
+
+                    <!-- Sign Up Form -->
+                    <div class="auth-form" id="signupForm">
+                        <h1 class="modal-heading">
+                            Sign up to start listening
+                        </h1>
+                        <!-- Loại bỏ validate mặc định -->
+                        <form
+                            class="auth-form-content"
+                            novalidate
+                            autocomplete="off"
+                        >
+                            <!-- Trường Email -->
+                            <div class="form-group">
+                                <input
+                                    type="email"
+                                    placeholder="Email address"
+                                    class="form-input"
+                                    id="signupEmail"
+                                    autocomplete="off"
+                                />
+                                <div class="error-message">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span><!-- Message Lỗi tại đây --></span>
+                                </div>
+                            </div>
+
+                            <!-- Trường Username -->
+                            <div class="form-group">
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    class="form-input"
+                                    id="signupUsername"
+                                    autocomplete="off"
+                                />
+                                <div class="error-message">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span><!-- Message Lỗi tại đây --></span>
+                                </div>
+                            </div>
+
+                            <!-- Trường Display Name -->
+                            <div class="form-group">
+                                <input
+                                    type="text"
+                                    placeholder="Display name"
+                                    class="form-input"
+                                    id="signupDisplayName"
+                                    autocomplete="off"
+                                />
+                                <div class="error-message">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span><!-- Message Lỗi tại đây --></span>
+                                </div>
+                            </div>
+
+                            <!-- Trường Password -->
+                            <div class="form-group">
+                                <div class="password-input-wrapper">
+                                    <input
+                                        type="password"
+                                        placeholder="Password"
+                                        class="form-input"
+                                        id="signupPassword"
+                                        autocomplete="new-password"
+                                    />
+                                    <!-- Ẩn/hiện mật khẩu -->
+                                    <button
+                                        type="button"
+                                        class="password-toggle-btn"
+                                        id="signupPasswordToggle"
+                                    >
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+
+                                <div class="error-message">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span><!-- Message Lỗi tại đây --></span>
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="auth-submit-btn"
+                                disabled
+                            >
+                                Sign Up
+                            </button>
+                        </form>
+
+                        <div class="auth-switch">
+                            <span>Already have an account? </span>
+                            <button class="auth-link" id="showLogin">
+                                Log in here
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Login Form -->
+                    <div class="auth-form" id="loginForm" style="display: none">
+                        <h1 class="modal-heading">Log in to Spotify</h1>
+
+                        <form class="auth-form-content" novalidate>
+                            <div class="form-group">
+                                <input
+                                    type="email"
+                                    placeholder="Email address"
+                                    class="form-input"
+                                    id="loginEmail"
+                                    autocomplete="off"
+                                />
+                                <div class="error-message">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="password-input-wrapper">
+                                    <input
+                                        type="password"
+                                        placeholder="Password"
+                                        class="form-input"
+                                        id="loginPassword"
+                                        autocomplete="off"
+                                    />
+                                    <button
+                                        type="button"
+                                        class="password-toggle-btn"
+                                        id="loginPasswordToggle"
+                                    >
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+
+                                <div class="error-message">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span></span>
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="auth-submit-btn"
+                                disabled
+                            >
+                                Log In
+                            </button>
+
+                            <div class="form-error-message">
+                                <span></span>
+                            </div>
+                        </form>
+
+                        <div class="auth-switch">
+                            <span>Don't have an account? </span>
+                            <button class="auth-link" id="showSignup">
+                                Sign up here
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Template Artist Hero -->
+        <template id="artist-hero-template">
+            <div class="artist-hero">
+                <div class="hero-background">
+                    <img
+                        src="placeholder.svg"
+                        alt=""
+                        class="hero-image"
+                        onerror="this.onerror=null;this.src='placeholder.svg';"
+                    />
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="hero-content">
+                    <div class="verified-badge" style="display: none">
+                        <span class="fa-stack verified-icon-stack">
+                            <i
+                                class="fas fa-circle fa-stack-2x icon-background"
+                            ></i>
+                            <i
+                                class="fas fa-check-circle fa-stack-2x icon-foreground"
+                            ></i>
+                        </span>
+                        <span>Verified Artist</span>
+                    </div>
+                    <h1 class="artist-name">Artist Name</h1>
+                    <p class="monthly-listeners">0 monthly listeners</p>
+                </div>
+            </div>
+        </template>
+
+        <!-- Template Playlist Hero -->
+        <template id="playlist-hero-template">
+            <div class="playlist-hero">
+                <img
+                    src="placeholder.svg"
+                    alt=""
+                    class="playlist-cover-img"
+                    onerror="this.onerror=null;this.src='placeholder.svg';"
+                />
+                <div class="playlist-info">
+                    <span class="playlist-type">Public Playlist</span>
+                    <h1 class="playlist-title">Playlist Title</h1>
+                    <p class="playlist-description" style="display: none"></p>
+                    <div class="playlist-meta">
+                        <img
+                            src="placeholder.svg"
+                            alt=""
+                            class="creator-avatar"
+                        />
+                        <span class="creator-name">Creator</span>
+                        <span class="meta-separator" style="display: none"
+                            >•</span
+                        >
+                        <span class="song-count"></span>
+                        <span class="total-duration"></span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Template Skeleton -->
+        <template id="detail-skeleton-template">
+            <!-- Skeleton Hero -->
+            <div class="playlist-hero">
+                <div
+                    class="skeleton-image playlist-cover-img"
+                    style="width: 232px; height: 232px"
+                ></div>
+                <div class="playlist-info" style="gap: 16px">
+                    <div
+                        class="skeleton-text"
+                        style="width: 100px; height: 14px"
+                    ></div>
+                    <div
+                        class="skeleton-text"
+                        style="width: 40vw; max-width: 400px; height: 96px"
+                    ></div>
+                    <div
+                        class="skeleton-text"
+                        style="width: 20vw; max-width: 200px; height: 14px"
+                    ></div>
+                </div>
+            </div>
+            <!-- Skeleton Tracks -->
+            <div class="skeleton-tracks-body">
+                <div class="track-list-item skeleton-track">
+                    <div class="track-number"></div>
+                    <div class="track-title">
+                        <div
+                            class="skeleton-image"
+                            style="width: 40px; height: 40px"
+                        ></div>
+                        <div class="track-title-info">
+                            <div
+                                class="skeleton-text"
+                                style="height: 16px; width: 150px"
+                            ></div>
+                            <div
+                                class="skeleton-text"
+                                style="
+                                    height: 14px;
+                                    width: 100px;
+                                    margin-top: 4px;
+                                "
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="track-album">
+                        <div class="skeleton-text" style="width: 100px"></div>
+                    </div>
+                    <div class="track-date">
+                        <div class="skeleton-text" style="width: 80px"></div>
+                    </div>
+                    <div class="track-duration-container">
+                        <div class="skeleton-text" style="width: 40px"></div>
+                    </div>
+                </div>
+                <div class="track-list-item skeleton-track">
+                    <div class="track-number"></div>
+                    <div class="track-title">
+                        <div
+                            class="skeleton-image"
+                            style="width: 40px; height: 40px"
+                        ></div>
+                        <div class="track-title-info">
+                            <div
+                                class="skeleton-text"
+                                style="height: 16px; width: 150px"
+                            ></div>
+                            <div
+                                class="skeleton-text"
+                                style="
+                                    height: 14px;
+                                    width: 100px;
+                                    margin-top: 4px;
+                                "
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="track-album">
+                        <div class="skeleton-text" style="width: 100px"></div>
+                    </div>
+                    <div class="track-date">
+                        <div class="skeleton-text" style="width: 80px"></div>
+                    </div>
+                    <div class="track-duration-container">
+                        <div class="skeleton-text" style="width: 40px"></div>
+                    </div>
+                </div>
+                <div class="track-list-item skeleton-track">
+                    <div class="track-number"></div>
+                    <div class="track-title">
+                        <div
+                            class="skeleton-image"
+                            style="width: 40px; height: 40px"
+                        ></div>
+                        <div class="track-title-info">
+                            <div
+                                class="skeleton-text"
+                                style="height: 16px; width: 150px"
+                            ></div>
+                            <div
+                                class="skeleton-text"
+                                style="
+                                    height: 14px;
+                                    width: 100px;
+                                    margin-top: 4px;
+                                "
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="track-album">
+                        <div class="skeleton-text" style="width: 100px"></div>
+                    </div>
+                    <div class="track-date">
+                        <div class="skeleton-text" style="width: 80px"></div>
+                    </div>
+                    <div class="track-duration-container">
+                        <div class="skeleton-text" style="width: 40px"></div>
+                    </div>
+                </div>
+                <div class="track-list-item skeleton-track">
+                    <div class="track-number"></div>
+                    <div class="track-title">
+                        <div
+                            class="skeleton-image"
+                            style="width: 40px; height: 40px"
+                        ></div>
+                        <div class="track-title-info">
+                            <div
+                                class="skeleton-text"
+                                style="height: 16px; width: 150px"
+                            ></div>
+                            <div
+                                class="skeleton-text"
+                                style="
+                                    height: 14px;
+                                    width: 100px;
+                                    margin-top: 4px;
+                                "
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="track-album">
+                        <div class="skeleton-text" style="width: 100px"></div>
+                    </div>
+                    <div class="track-date">
+                        <div class="skeleton-text" style="width: 80px"></div>
+                    </div>
+                    <div class="track-duration-container">
+                        <div class="skeleton-text" style="width: 40px"></div>
+                    </div>
+                </div>
+                <div class="track-list-item skeleton-track">
+                    <div class="track-number"></div>
+                    <div class="track-title">
+                        <div
+                            class="skeleton-image"
+                            style="width: 40px; height: 40px"
+                        ></div>
+                        <div class="track-title-info">
+                            <div
+                                class="skeleton-text"
+                                style="height: 16px; width: 150px"
+                            ></div>
+                            <div
+                                class="skeleton-text"
+                                style="
+                                    height: 14px;
+                                    width: 100px;
+                                    margin-top: 4px;
+                                "
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="track-album">
+                        <div class="skeleton-text" style="width: 100px"></div>
+                    </div>
+                    <div class="track-date">
+                        <div class="skeleton-text" style="width: 80px"></div>
+                    </div>
+                    <div class="track-duration-container">
+                        <div class="skeleton-text" style="width: 40px"></div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Modal Create Playlist -->
+        <template id="playlist-edit-modal-template">
+            <div class="modal-overlay playlist-edit-modal">
+                <div class="modal-container">
+                    <button class="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="modal-content">
+                        <h1 class="modal-heading">Edit details</h1>
+                        <form class="playlist-edit-form" novalidate>
+                            <div class="form-main-content">
+                                <div
+                                    class="form-cover-wrapper"
+                                    data-tooltip="Choose photo"
+                                >
+                                    <img
+                                        src="placeholder.svg"
+                                        alt="Playlist Cover"
+                                        class="modal-cover-preview"
+                                    />
+                                    <div class="form-cover-overlay">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        <span>Choose photo</span>
+                                    </div>
+                                    <input
+                                        type="file"
+                                        class="modal-cover-input"
+                                        accept="image/jpeg, image/png, image/gif"
+                                        hidden
+                                    />
+                                </div>
+                                <div class="form-fields">
+                                    <input
+                                        type="text"
+                                        class="modal-form-input"
+                                        placeholder="Add a name"
+                                        id="playlistNameInput"
+                                        maxlength="100"
+                                    />
+                                    <textarea
+                                        class="modal-form-textarea"
+                                        placeholder="Add an optional description"
+                                        id="playlistDescriptionInput"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <div class="form-footer">
+                                <p class="form-disclaimer">
+                                    By proceeding, you agree to give Spotify
+                                    access to the image you choose to upload.
+                                    Please make sure you have the right to
+                                    upload the image.
+                                </p>
+                                <button
+                                    type="submit"
+                                    class="auth-submit-btn save-btn"
+                                    disabled
+                                >
+                                    <span class="btn-text">Save</span>
+                                    <div
+                                        class="spinner"
+                                        style="display: none"
+                                    ></div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Template Delete Confirmation Modal -->
+        <template id="delete-confirmation-modal-template">
+            <div class="modal-overlay delete-confirmation-modal">
+                <div class="modal-container">
+                    <div class="modal-content">
+                        <h1 class="modal-heading">Delete from Your Library?</h1>
+                        <p class="modal-description">
+                            This will delete My Playlist #6 from Your Library.
+                        </p>
+                        <div class="modal-actions">
+                            <button class="auth-btn signup-btn cancel-btn">
+                                Cancel
+                            </button>
+                            <button class="auth-submit-btn delete-btn">
+                                <span class="btn-text">Delete</span>
+                                <div
+                                    class="spinner"
+                                    style="display: none"
+                                ></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Template Add To Playlist Modal -->
+        <template id="add-to-playlist-modal-template">
+            <div class="context-menu add-to-playlist-modal">
+                <div class="modal-header">
+                    <h1 class="modal-title">Add to playlist</h1>
+                </div>
+                <div class="modal-search-section">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input
+                            type="text"
+                            class="modal-search-input"
+                            placeholder="Find a playlist"
+                        />
+                    </div>
+                </div>
+                <div class="modal-new-playlist-section">
+                    <button class="new-playlist-btn">
+                        <i class="fas fa-plus"></i>
+                        <span>New playlist</span>
+                    </button>
+                </div>
+                <div class="modal-playlists-list">
+                    <!-- Các item playlist sẽ được render vào đây -->
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn cancel-btn">Cancel</button>
+                    <button class="modal-btn done-btn">Done</button>
+                </div>
+            </div>
+        </template>
+
+        <!-- Template cho một item trong Modal "Add to playlist" -->
+        <template id="playlist-item-template">
+            <div class="playlist-item-row" role="checkbox">
+                <img
+                    src="placeholder.svg"
+                    alt="Playlist Cover"
+                    class="playlist-item-cover"
+                />
+                <div class="playlist-item-info">
+                    <div class="playlist-item-name">Playlist Name</div>
+                    <div class="playlist-item-count">0 songs</div>
+                </div>
+                <div class="custom-checkbox">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+        </template>
+
+        <!-- Toastify -->
+        <script
+            type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/toastify-js"
+        ></script>
+        <script src="main.js" type="module"></script>
+    </body>
+</html>

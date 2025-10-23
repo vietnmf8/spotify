@@ -1,0 +1,47 @@
+/* CSS Variables */
+:root {
+    /* Colors */
+    --bg-primary: #000000;
+    --bg-secondary: #121212;
+    --bg-tertiary: #1a1a1a;
+    --bg-hover: #1f1f1f;
+    --bg-active: #2a2a2a;
+
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #6a6a6a;
+
+    --accent-primary: #1db954;
+    --accent-hover: #1ed760;
+    --accent-active: #169c46;
+
+    --border-color: #2e2e2e;
+    --shadow: rgba(0, 0, 0, 0.5);
+
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+
+    /* Border radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 50%;
+
+    /* Transitions */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    /* Z-index */
+    --z-sidebar: 10;
+    --z-header: 20;
+    --z-player: 30;
+    --z-modal: 40;
+    --z-tooltip: 50;
+}
