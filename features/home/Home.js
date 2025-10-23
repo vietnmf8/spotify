@@ -102,10 +102,10 @@ class Home {
         // Tải song song tracks thịnh hành và artists
         await Promise.all([
             // Nếu muốn gọi All Playlist trong Today Biggest Hit
-            // this._loadAndRenderPlaylists(),
+            this._loadAndRenderPlaylists(),
 
             // Nếu muốn gọi Trend Track trong Today Biggest Hit
-            this._loadAndRenderTrendingTracks(),
+            // this._loadAndRenderTrendingTracks(),
 
             this._loadAndRenderArtists(),
         ]);
