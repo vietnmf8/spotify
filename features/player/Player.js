@@ -84,6 +84,14 @@ class Player {
         // Gán sự kiện click cho nút play/pause
         this.playBtn.addEventListener("click", () => this._togglePlayPause());
 
+        document.addEventListener("keydown", (e) => {
+            // Kiểm tra nếu phím nhấn là Space
+            if (e.code === "Space") {
+                e.preventDefault(); // Ngăn trình duyệt cuộn trang
+                this._togglePlayPause();
+            }
+        });
+
         // Gán sự kiện cho các nút chức năng
         this.nextBtn.addEventListener("click", () => this._handleNext());
         this.prevBtn.addEventListener("click", () => this._handlePrevious());
